@@ -2,8 +2,10 @@ package org.example.models;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static org.example.Main.connect;
 
@@ -18,6 +20,10 @@ public class Vehicle {
         this.manufacturer = manufacturer;
         this.releaseYear = releaseYear;
         this.model = model;
+    }
+
+    public Vehicle() {
+
     }
 
     public static ArrayList<Vehicle> selectAll() {
@@ -41,6 +47,27 @@ public class Vehicle {
         return vehicles;
     }
 
+    public static Vehicle getOne(long id) {
+        String query = "SELECT * FROM vehicles where id = " + id;
+        Vehicle vh = new Vehicle();
+        try {
+            Connection con = connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()){
+                vh = new Vehicle(
+                        rs.getLong("id"),
+                        rs.getString("manufacturer"),
+                        rs.getInt("release_year"),
+                        rs.getString("model"));
+
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+            return vh;
+    }
     @Override
     public String toString() {
         return "Vehicle{" +

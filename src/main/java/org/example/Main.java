@@ -8,11 +8,12 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static Gson gson;
+    public static Gson gson = new Gson();
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         server.createContext("/createVehicle", new VehicleHandler());
